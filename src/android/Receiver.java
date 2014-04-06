@@ -149,7 +149,7 @@ public class Receiver extends BroadcastReceiver {
      * Adds an onclick handler to the notification
      */
     private Builder setClickEvent (Builder notification) {
-        Intent intent = new Intent(context, ReceiverActivity.class)
+        Intent intent = new Intent(context, YourClass.class)
             .putExtra(OPTIONS, options.getJSONObject().toString())
             .setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
 
