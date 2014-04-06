@@ -1,5 +1,5 @@
-Cordova Local-Notification Plugin
-==================================
+Cordova Local-Notification Plugin for 2.x.x
+============================================
 
 The essential purpose of local notifications is to enable an application to inform its users that it has something for them — for example, a message or an upcoming appointment — when the application isn’t running in the foreground.<br>
 They are scheduled by an application and delivered on the same device.
@@ -29,43 +29,8 @@ See [Notification Guide][android_notification_guide] for detailed informations a
 See [Local notifications for Windows Phone][wp8_notification_guide] for detailed informations and screenshots.
 <br>*Windows Phone 8.0 has no notification center. Instead local notifications are realized through live tiles updates.*
 
-
-## Dependencies
-[Cordova][cordova] will check all dependencies and install them if they are missing.
-- [org.apache.cordova.device][apache_device_plugin] *(since v0.6.0)*
-
-
 # Installation
-The plugin can either be installed into the local development environment or cloud based through [PhoneGap Build][PGB].
-
-### Adding the Plugin to your project
-Through the [Command-line Interface][CLI]:
-```bash
-# ~~ from master ~~
-cordova plugin add https://github.com/katzer/cordova-plugin-local-notifications.git && cordova prepare
-```
-or to use the last stable version:
-```bash
-# ~~ stable version ~~
-cordova plugin add de.appplant.cordova.plugin.local-notification && cordova prepare
-```
-
-### Removing the Plugin from your project
-Through the [Command-line Interface][CLI]:
-```bash
-cordova plugin rm de.appplant.cordova.plugin.local-notification
-```
-
-### PhoneGap Build
-Add the following xml to your config.xml to always use the latest version of this plugin:
-```xml
-<gap:plugin name="de.appplant.cordova.plugin.local-notification" />
-```
-or to use an specific version:
-```xml
-<gap:plugin name="de.appplant.cordova.plugin.local-notification" version="0.7.2" />
-```
-More informations can be found [here][PGB_plugin].
+Do the following to install;
 
 
 ## Using the plugin
