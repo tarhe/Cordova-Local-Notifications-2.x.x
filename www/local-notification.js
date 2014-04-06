@@ -18,7 +18,8 @@
     specific language governing permissions and limitations
     under the License.
 */
-
+cordova.define("cordova/plugin/localNotification", function(require, exports, module) {
+ 
 var LocalNotification = function () {
     this._defaults = {
         message:    '',
@@ -31,22 +32,11 @@ var LocalNotification = function () {
     };
 };
 
-LocalNotification.prototype = {
-    /**
-     * Returns the default settings
-     *
-     * @return {Object}
-     */
-    getDefaults: function () {
+	LocalNotification.prototype.getDefaults = function () {
         return this._defaults;
-    },
+    };
 
-    /**
-     * Overwrite default settings
-     *
-     * @param {Object} defaults
-     */
-    setDefaults: function (newDefaults) {
+    LocalNotification.prototype.setDefaults= function (newDefaults) {
         var defaults = this.getDefaults();
 
         for (var key in defaults) {
@@ -54,16 +44,9 @@ LocalNotification.prototype = {
                 defaults[key] = newDefaults[key];
             }
         }
-    },
+    };
 
-    /**
-     * @private
-     * Merge settings with default values
-     *
-     * @param {Object} options
-     * @retrun {Object}
-     */
-    mergeWithDefaults: function (options) {
+    LocalNotification.prototype.mergeWithDefaults= function (options) {
         var defaults = this.getDefaults();
 
         for (var key in defaults) {
@@ -73,12 +56,10 @@ LocalNotification.prototype = {
         }
 
         return options;
-    },
+    };
 
-    /**
-     * @private
-     */
-    applyPlatformSpecificOptions: function () {
+    
+    LocalNotification.prototype.applyPlatformSpecificOptions= function () {
         var defaults = this._defaults;
 
         switch (device.platform) {
@@ -94,15 +75,10 @@ LocalNotification.prototype = {
             defaults.image      = null;
             defaults.wideImage  = null;
         };
-    },
+    };
 
-    /**
-     * Add a new entry to the registry
-     *
-     * @param {Object} options
-     * @return {Number} The notification's ID
-     */
-    add: function (options) {
+    
+    LocalNotification.prototype.add= function (options) {
         var options    = this.mergeWithDefaults(options),
             callbackFn = null;
 
@@ -127,107 +103,35 @@ LocalNotification.prototype = {
         cordova.exec(callbackFn, null, 'LocalNotification', 'add', [options]);
 
         return options.id;
-    },
+    };
 
-    /**
-     * Cancels the specified notification
-     *
-     * @param {String} id of the notification
-     */
-    cancel: function (id) {
+    
+    LocalNotification.prototype.cancel= function (id) {
         cordova.exec(null, null, 'LocalNotification', 'cancel', [id.toString()]);
-    },
+    };
 
     /**
      * Removes all previously registered notifications
      */
-    cancelAll: function () {
+    LocalNotification.prototype.cancelAll= function () {
         cordova.exec(null, null, 'LocalNotification', 'cancelAll', []);
-    },
+    };
 
-    /**
-     * @async
-     *
-     * Retrieves a list with all currently pending notifications.
-     *
-     * @param {Function} callback
-     */
-    getScheduledIds: function (callback) {
+    LocalNotification.prototype.getScheduledIds=function (callback) {
         cordova.exec(callback, null, 'LocalNotification', 'getScheduledIds', []);
-    },
+    };
 
-    /**
-     * @async
-     *
-     * Checks wether a notification with an ID is scheduled.
-     *
-     * @param {String}   id
-     * @param {Function} callback
-     */
-    isScheduled: function (id, callback) {
+    LocalNotification.prototype.isScheduled= function (id, callback) {
         cordova.exec(callback, null, 'LocalNotification', 'isScheduled', [id.toString()]);
-    },
+    };
 
-    /**
-     * Occurs when a notification was added.
-     *
-     * @param {String} id    The ID of the notification
-     * @param {String} state Either "foreground" or "background"
-     * @param {String} json  A custom (JSON) string
-     */
-    onadd: function (id, state, json) {},
+    LocalNotification.prototype.onadd= function (id, state, json) {};
 
-    /**
-     * Occurs when the notification is triggered.
-     *
-     * @param {String} id    The ID of the notification
-     * @param {String} state Either "foreground" or "background"
-     * @param {String} json  A custom (JSON) string
-     */
-    ontrigger: function (id, state, json) {},
+    LocalNotification.prototype.ontrigger= function (id, state, json) {};
 
-    /**
-     * Fires after the notification was clicked.
-     *
-     * @param {String} id    The ID of the notification
-     * @param {String} state Either "foreground" or "background"
-     * @param {String} json  A custom (JSON) string
-     */
-    onclick: function (id, state, json) {},
+    LocalNotification.prototype.onclick= function (id, state, json) {};
 
-    /**
-     * Fires if the notification was canceled.
-     *
-     * @param {String} id    The ID of the notification
-     * @param {String} state Either "foreground" or "background"
-     * @param {String} json  A custom (JSON) string
-     */
-    oncancel: function (id, state, json) {}
-};
-
-var plugin  = new LocalNotification(),
-    channel = require('cordova/channel');
-
-channel.deviceready.subscribe( function () {
-    cordova.exec(null, null, 'LocalNotification', 'deviceready', []);
+    LocalNotification.prototype.oncancel= function (id, state, json) {};
+		
+module.exports = new LocalNotification();
 });
-
-channel.onCordovaReady.subscribe( function () {
-    channel.onCordovaInfoReady.subscribe( function () {
-        if (device.platform == 'Android') {
-            channel.onPause.subscribe( function () {
-                cordova.exec(null, null, 'LocalNotification', 'pause', []);
-            });
-
-            channel.onResume.subscribe( function () {
-                cordova.exec(null, null, 'LocalNotification', 'resume', []);
-            });
-
-            cordova.exec(null, null, 'LocalNotification', 'resume', []);
-        }
-
-        plugin.applyPlatformSpecificOptions();
-    });
-});
-
-module.exports = plugin;
